@@ -1,0 +1,34 @@
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+local speedChangeAmount = 10
+local maxSpeed = 10000
+
+local increaseButton = script.Parent:WaitForChild("IncreaseButton")
+local decreaseButton = script.Parent:WaitForChild("DecreaseButton")
+local speedLabel = script.Parent:WaitForChild("SpeedLabel")
+
+-- Hàm cập nhật tốc độ hiển thị
+local function updateSpeedLabel()
+    speedLabel.Text = "Speed: " .. humanoid.WalkSpeed
+end
+
+-- Hàm tăng tốc độ
+local function increaseSpeed()
+    humanoid.WalkSpeed = math.min(humanoid.WalkSpeed + speedChangeAmount, maxSpeed)
+    updateSpeedLabel()
+end
+
+-- Hàm giảm tốc độ
+local function decreaseSpeed()
+    humanoid.WalkSpeed = math.max(humanoid.WalkSpeed - speedChangeAmount, 0)
+    updateSpeedLabel()
+end
+
+-- Kết nối các nút với hàm tương ứng
+increaseButton.MouseButton1Click:Connect(increaseSpeed)
+decreaseButton.MouseButton1Click:Connect(decreaseSpeed)
+
+-- Cập nhật tốc độ ban đầu
+updateSpeedLabel()
